@@ -1,4 +1,4 @@
-export interface Charger {
+export type Charger = {
   name: string;
   id: string;
   address: string;
@@ -7,7 +7,8 @@ export interface Charger {
   latitude: string;
   longitude: string;
   connector_types: string[];
-}
+};
+
 
 export interface ChargerData {
   chargers: Charger[];

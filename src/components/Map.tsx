@@ -1,20 +1,12 @@
 import React, { useState, useEffect, useRef } from "react";
 import { View, ActivityIndicator, StyleSheet, Alert } from "react-native";
-import MapView, { Marker, Region } from "react-native-maps";
+import MapView, { Marker } from "react-native-maps";
 import * as Location from "expo-location";
 import { FAB } from "react-native-paper";
 import chargersData from "../data/chargers.json";
+import { Charger } from "../types/chargerTypes";
 
-type Charger = {
-  name: string;
-  id: string;
-  address: string;
-  distance: string;
-  distance_metrics: string;
-  latitude: string;
-  longitude: string;
-  connector_types: string[];
-};
+
 
 const Map: React.FC = () => {
   const [location, setLocation] =

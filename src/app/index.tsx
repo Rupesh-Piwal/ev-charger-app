@@ -1,21 +1,13 @@
 import React, { useState, useEffect, useRef } from "react";
 
 import { View, ActivityIndicator, StyleSheet, Alert } from "react-native";
-import MapView, { Marker, Region } from "react-native-maps";
+import MapView, { Marker } from "react-native-maps";
 import * as Location from "expo-location";
 import { FAB } from "react-native-paper";
 import chargersData from "../data/chargers.json";
+import { Charger } from "../types/chargerTypes";
 
-type Charger = {
-  name: string;
-  id: string;
-  address: string;
-  distance: string;
-  distance_metrics: string;
-  latitude: string;
-  longitude: string;
-  connector_types: string[];
-};
+
 
 const Map: React.FC = () => {
   const [location, setLocation] =
@@ -23,7 +15,6 @@ const Map: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const mapRef = useRef<MapView | null>(null);
 
-  // Request location permission and fetch user's location
   useEffect(() => {
     (async () => {
       let { status } = await Location.requestForegroundPermissionsAsync();
@@ -41,7 +32,6 @@ const Map: React.FC = () => {
     })();
   }, []);
 
-  // Function to capture a snapshot of the map
   const captureMapSnapshot = async () => {
     if (!mapRef.current || !location) {
       Alert.alert("Error", "Map or location not available");
@@ -81,7 +71,6 @@ const Map: React.FC = () => {
           longitudeDelta: 0.05,
         }}
       >
-        {/* User's LOCATION MARKER */}
         <Marker
           coordinate={{
             latitude: location.latitude,
@@ -91,7 +80,6 @@ const Map: React.FC = () => {
           pinColor="pink"
         />
 
-        {/* CHARGING STATIONS FROM JSON */}
         {chargersData.chargers.map((charger: Charger, index: number) => (
           <Marker
             key={index}
@@ -105,7 +93,6 @@ const Map: React.FC = () => {
         ))}
       </MapView>
 
-      {/* FAB to capture map snapshot */}
       <FAB style={styles.fab} icon="camera" onPress={captureMapSnapshot} />
     </View>
   );
